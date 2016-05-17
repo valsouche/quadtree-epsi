@@ -137,15 +137,15 @@ public class QuadTree {
     }
     
     
-    public int getPointDepth() {
+    public int getMaxPointDepth() {
         int pointDepth;
         
         if (NW != null) {
             
-            pointDepth= NW.getPointDepth();
-            pointDepth = Math.max(pointDepth, NE.getPointDepth());
-            pointDepth = Math.max(pointDepth, SW.getPointDepth());
-            pointDepth = Math.max(pointDepth, SE.getPointDepth());
+            pointDepth= NW.getMaxPointDepth();
+            pointDepth = Math.max(pointDepth, NE.getMaxPointDepth());
+            pointDepth = Math.max(pointDepth, SW.getMaxPointDepth());
+            pointDepth = Math.max(pointDepth, SE.getMaxPointDepth());
             
             pointDepth++;
             
@@ -215,6 +215,7 @@ public class QuadTree {
     public static void main(String[] args) {
         int i = 0;
         String reponse;
+        int pointX, pointY;
         int numberOfGeneratedPoints;
         
         Scanner sc = new Scanner(System.in);
@@ -225,8 +226,14 @@ public class QuadTree {
         
         System.out.println("Creation du Quadtree de taille 100x100 contenant " + numberOfGeneratedPoints + "points");
         
+        System.out.println("Entrez le x (entre 0 et 100) du point que vous voulez interroger :  ");
+        pointX = Integer.parseInt(sc.nextLine());
+        
+        System.out.println("Et son Y (entre 0 et 100) :  ");
+        pointY = Integer.parseInt(sc.nextLine());
+        
         QuadTree qt = new QuadTree(0, 100, 0, 100);
-        Point p = new Point(22,64);
+        Point p = new Point(pointX,pointY);
        
         for (i=0; i<numberOfGeneratedPoints; i++) {
             Point randomPoint = new Point();
@@ -235,8 +242,8 @@ public class QuadTree {
         
         qt.ventile();
         
-        System.out.println("Profondeur max : "+ qt.getPointDepth());
-        System.out.println("Points dans le meme quadtree : " + qt.nearPoint(p));
+        System.out.println("Profondeur maximale du QuadTree : "+ qt.getMaxPointDepth());
+        System.out.println(qt.nearPoint(p).size() + " points dans le meme quadtree : " + qt.nearPoint(p));
         
     } 
 }
